@@ -7,11 +7,12 @@ public class ProcessGenerator {
 	public ProcessGenerator(double probability)
 	{
 		this.probability = probability;
-		this.probabilityTest = rand.nextDouble();
+		
 		
 	}
 	public boolean query()
 	{
+		this.probabilityTest = rand.nextDouble();
 		if(probabilityTest <= probability)
 		{
 			return true;
