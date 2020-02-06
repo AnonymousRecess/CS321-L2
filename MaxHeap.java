@@ -1,23 +1,36 @@
 
 public class MaxHeap {
-	private int heapSize;
+	private int heapSize = -1;
 	private Process[] priorityQueue;
 	
 	public void MaxHeapInsert(Process[] priorityQueue, Process p)
 	{
 		this.priorityQueue = priorityQueue;
+		
 		heapSize++;
 		priorityQueue[heapSize] = p;
+		
 		MaxHeapifyUp(priorityQueue, heapSize);
 	}
 	
 	public void MaxHeapifyUp(Process[] priorityQueue, int i)
 	{
-		double parent = Math.ceil(((1/2) *i));
-		while( i > 0 && priorityQueue[i].compareTo(priorityQueue[(int) parent]) == 1)
+		double parent;
+		if( i <= 0)
 		{
+			parent = 0;
+		}
+		else
+		{
+		parent = (Math.ceil((double)1/2 *(double)i)-1);
+		}
+		while( i > -1 && priorityQueue[i].compareTo(priorityQueue[(int) parent]) == 1)
+		{
+			
 			swap(i, (int)parent);
 			i = (int)parent;
+
+			i= (int)(Math.ceil((double)1/2 *(double)i)-1);
 		}
 	}
 	private void MaxHeapifyDown(Process[] priorityQueue, int i)
@@ -57,6 +70,10 @@ public class MaxHeap {
 		heapSize--;
 		MaxHeapifyDown(priorityQueue, 0);
 		return max;
+	}
+	public int getLength()
+	{
+		return heapSize;
 	}
 }
 

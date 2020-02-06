@@ -27,23 +27,15 @@ public class Process implements Comparable<Process> {
 	public int compareTo(Process p) {
 		if(this.priority == p.priority)
 		{
-			if(this.arrivalTime < p.arrivalTime)
-			{
+			if(this.arrivalTime <= p.arrivalTime)
 				return 1;
-			}
-			else 
-			{
+			else
 				return -1;
-			}
 		}
-		else if(this.priority < p.priority)
-		{
-			return -1;
-		}
-		else 
-		{
+		else if(this.priority > p.priority)
 			return 1;
-		}
+		else
+			return -1;
 		
 	}
 	public boolean finish()
