@@ -22,15 +22,15 @@ public class MaxHeap {
 		}
 		else
 		{
-		parent = (Math.ceil((double)1/2 *(double)i)-1);
+		parent = (i-1)/2;
 		}
-		while( i > -1 && priorityQueue[i].compareTo(priorityQueue[(int) parent]) == 1)
+		while( i > 0 && priorityQueue[i].compareTo(priorityQueue[(int) parent]) == 1)
 		{
 			
 			swap(i, (int)parent);
 			i = (int)parent;
-
-			i= (int)(Math.ceil((double)1/2 *(double)i)-1);
+			parent = (i-1)/2;
+		//	i= (i-1)/2;
 		}
 	}
 	private void MaxHeapifyDown(Process[] priorityQueue, int i)

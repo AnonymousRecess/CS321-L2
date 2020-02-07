@@ -50,7 +50,7 @@ public class PQueue {
 		{
 			return;
 		}
-		for (int i = 0; i < maxHeap.getLength(); i++)
+		for (int i = 0; i <= maxHeap.getLength(); i++)
 		{
 			priorityQueue[i].incrementTimeNotProcessed();
 			int timeNotProcessed = priorityQueue[i].getTimeNotProcessed();

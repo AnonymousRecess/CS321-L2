@@ -6,13 +6,13 @@ public class ProcessGenerator {
 	private double probabilityTest; // number to determine if new process should be made
 	public ProcessGenerator(double probability)
 	{
-		this.probability = probability;
+		
 		
 		
 	}
 	public boolean query()
 	{
-		this.probabilityTest = 0.4;
+		this.probability = rand.nextDouble();
 		if(probabilityTest <= probability)
 		{
 			return true;
