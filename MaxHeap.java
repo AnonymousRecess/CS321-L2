@@ -38,11 +38,11 @@ public class MaxHeap {
 		int l = (2*i +1);
 		int r = (2*i + 2);
 		int largest =i;
-		if(l < heapSize && priorityQueue[l].compareTo(priorityQueue[largest]) == 1) //might be <=
+		if(l <= heapSize && priorityQueue[l].compareTo(priorityQueue[largest]) == 1) //might be <=
 		{
 			largest = l;
 		}
-		if(r< heapSize && priorityQueue[r].compareTo(priorityQueue[largest]) == 1) //might be <=
+		if(r<= heapSize && priorityQueue[r].compareTo(priorityQueue[largest]) == 1) //might be <=
 		{
 			largest = r;
 		}
