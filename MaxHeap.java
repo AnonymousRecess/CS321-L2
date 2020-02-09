@@ -1,63 +1,100 @@
+import java.util.*;
 
 public class MaxHeap {
-	private int heapSize;
-	private Process[] priorityQueue;
-	
-	public void MaxHeapInsert(Process[] priorityQueue, Process p)
+	private int left=0;
+	private int right=0;
+	private int last = -1;
+	private Process largest;
+	private int heapsize =0;
+	private Process[] A;
+	public MaxHeap(){
+		
+	}
+
+	public Process[] Build_Array1() //Build initial array
 	{
-		this.priorityQueue = priorityQueue;
-		heapSize++;
-		priorityQueue[heapSize] = p;
-		MaxHeapifyUp(priorityQueue, heapSize);
+		int heapsize = 20;
+		A = new Process[heapsize];
+		return A;
 	}
 	
-	public void MaxHeapifyUp(Process[] priorityQueue, int i)
+	public Process[] Build_Array2() //if heapsize exceeds initial heapsize, build larger and copy array
 	{
-		double parent = Math.ceil(((1/2) *i));
-		while( i > 0 && priorityQueue[i].compareTo(priorityQueue[(int) parent]) == 1)
+		Process [] B;
+		int heapsize = heapsize*2;
+		B = new Process[heapsize];
+		for(int i = 0; i < A.length; i++)
 		{
-			swap(i, (int)parent);
-			i = (int)parent;
+			B[i] = A[i];
+		}
+		return B;
+	}
+	
+	public void Build_Max_Heap()
+	{
+		{
+			for (int i=0; i<heapsize/2;i++)
+				Max_Heapify_Down(i);
 		}
 	}
-	private void MaxHeapifyDown(Process[] priorityQueue, int i)
+
+	public void Max_Heapify_Down(int i)
 	{
-		int l = (2*i +1);
-		int r = (2*i + 2);
-		int largest;
-		if(l <= heapSize && priorityQueue[l].compareTo(priorityQueue[i]) == 1)
+		largest = i;
+		left = 2 * i + 1;
+		right = 2 * i + 2;
+		if (left < heapsize)
 		{
-			largest = l;
+			if (A[left] > A[i])
+				largest = left;
 		}
-		else
-			largest = i;
-		if(r<= heapSize && priorityQueue[r].compareTo(priorityQueue[i]) == 1)
+		if (right < heapsize)
 		{
-			largest = r;
+			if (A[right] > A[largest])
+				largest = right;
 		}
-		if(largest != i)
+		if (largest !=i)
 		{
-			swap(largest, i);
-			MaxHeapifyDown(priorityQueue, largest);
+			swap (A[largest],A[i]);
+			Max_Heapify_Down(largest);
 		}
 	}
-	private void swap(int i, int parent)
+	
+	public void Heapify_Up(int i) 
 	{
-		Process temp;
-		temp = priorityQueue[i];
-		priorityQueue[i] = priorityQueue[parent];
-		priorityQueue[parent] = temp;
+		if (i<0) return;
+		if(A[i]>=heapsize) return;
+		A[i] = heapsize
+				
 	}
-	public Process ExtractMax(Process[] priorityQueue) 
+
+	public void add(Process newProc) {
+		heapsize++;
+		if(heapsize > A.length) {
+			A = Build_Array2();
+		}
+		last++;
+		A[last] = newProc;
+		Heapify_Up(last);
+	}
+	
+	public Process removeProcess() 
 	{
-		Process max;
-		this.priorityQueue = priorityQueue;
-		max = priorityQueue[0];
-		priorityQueue[0] = priorityQueue[heapSize];
-		heapSize--;
-		MaxHeapifyDown(priorityQueue, 0);
-		return max;
+		
+		if (A.length == 0)
+		{
+		}
+		Process F = A[1];
+		A[1]=A[heapsize];
+		A[heapsize] = F;
+		swap(1,heapsize);
+		heapsize -=1;
+		Max_Heapify_Down(heapsize);
+	}
+	public void swap(int index_A,int index_B)
+	{
+		Process F = A[index_A];
+		A[index_A] = A[index_B];
+		A[index_B] = F;
 	}
 }
-
-

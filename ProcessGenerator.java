@@ -1,26 +1,31 @@
 import java.util.Random;
-
-public class ProcessGenerator {
+import java.util.concurrent.TimeUnit;
+public class ProcessGenerator
+{
 	private double probability;
-	private Random rand = new Random();
-	private double probabilityTest; // number to determine if new process should be made
-	public ProcessGenerator(double probability)
+	Random rand;
+	public ProcessGenerator(double prob){
+		probability = prob;
+		rand = new Random();
+	}	
+
+	public Process getNewProcess(int time, int maxtime, int maxlevel)
+	 //defines a process with time created, time until it should be run, and max priority level
 	{
-		this.probability = probability;
-		this.probabilityTest = rand.nextDouble();
-		
+		int arrivalTime = (int) System.nanoTime();
+		int timeRemaining = rand.nextInt(100);
+		int priority = rand.nextInt(100);
+		Process x = new Process (arrivalTime, timeRemaining, priority);
+		return x;
 	}
 	public boolean query()
 	{
-		if(probabilityTest <= probability)
-		{
+		int result = rand.nextInt(100);
+		if(result < ((probability*100))){
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-	public Process getNewProcess(int currentTime, int maxProcessTime, int maxLevel)
-	{
-		return new Process(currentTime, maxProcessTime, maxLevel);
-	}
+
+
 }

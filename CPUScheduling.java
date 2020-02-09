@@ -7,13 +7,13 @@ class CPUScheduling
 	if (args.length != 5)
 	    {
 		System.out.println
-		    ("Usage: java CPUScheduling <max-process-time> <max-level> <time-to-increment-level> <simulation-time> <process arrival rate>");
+		    ("Usage: java CPUScheduling <max-process-time> <max-level> <time-to-increment-priority> <simulation-time> <process arrival rate>");
 		System.out.println
 		    ("<max-process-time>: max number of unit time for executing a process.");
 		System.out.println
 		    ("<max-level>: priority levels are 1, 2, .. <max-level>");
 		System.out.println
-		    ("<time-to-increment-level>: number of unit time before a process to increment its priority by 1 if this process does not get any CPU time during this time period."); 
+		    ("<time-to-increment-priority>: number of unit times before a process to increment its priority by 1 if this process does not get any CPU time during this time period."); 
 		System.out.println
 		    ("<simulation-time>: number of unit time for this simulation.");
 		System.out.println
@@ -22,39 +22,27 @@ class CPUScheduling
 	    }
 
 	int maxProcessTime = Integer.parseInt(args[0]);
-	if (maxProcessTime <= 0)
-	    throw new IllegalArgumentException
-		("Illegal argument: maxProcessTime must >= 1.");
 	int maxLevel = Integer.parseInt(args[1]);
-	if (maxLevel <= 0)
-	    throw new IllegalArgumentException
-		("Illegal argument: maxPriorityLevel must >= 1.");	
-	int timeToIncrementLevel = Integer.parseInt(args[2]);
-	if (timeToIncrementLevel <= 0)
-	    throw new IllegalArgumentException
-		("Illegal argument: time-to-increment-level must >= 1.");
+	int timeToIncrementPriority = Integer.parseInt(args[2]);
 	int simulationTime = Integer.parseInt(args[3]);
-	if (simulationTime <= 0)
-	    throw new IllegalArgumentException
-		("Illegal argument: simulationTime must >= 1.");
 	double probability = Double.parseDouble(args[4]);
 		
 	PQueue pqueue = new PQueue();
 	Averager averager = new Averager();
 	ProcessGenerator pGenerator = new ProcessGenerator(probability);
+	
 
 	for (int currentTime = 0; currentTime < simulationTime; currentTime++)
 	    {
-		System.out.format("second %3d: ", currentTime);
-		
-		boolean arrival = false;
+		System.out.print("second " + currentTime + " :  ");
+
 		// Check to see if there is any incoming new process.
+		boolean noArrival = false;
 		if (pGenerator.query())
 		    {
 			Process p = pGenerator.getNewProcess(currentTime, maxProcessTime, maxLevel);
-			System.out.println("JOB " + currentTime + " arrives, timeRequired " + p.getTimeRemaining() + ", priority " + p.getPriority());
+			System.out.print("JOB ID " + currentTime + " arrives, timeRequired " + p.getTimeRemaining() + ", priority " + p.getPriority() + "  ");
 			pqueue.enPQueue(p);
-			arrival = true;
 		    }
 
 
@@ -66,18 +54,17 @@ class CPUScheduling
 		    {
 			Process next = pqueue.dePQueue();
 			next.reduceTimeRemaining();
-			pqueue.update(timeToIncrementLevel, maxLevel);
-			if (arrival)
-			    System.out.print("\t    ");
+			pqueue.update(timeToIncrementPriority, maxLevel);
 			if (next.finish())
 			    {
-				System.out.print("    (Assign to JOB " + next.getArrivalTime() + ": finish, priority " + next.getPriority() + ")");
+				System.out.print("(JOB ID " + next.getArrivalTime() + " finish)");
 				averager.addNumber(currentTime - 
 					       next.getArrivalTime() + 1);
 			    }
 			else
 			    {
-				System.out.print("    (Assign to JOB " + next.getArrivalTime() + ": timeRemaining " + next.getTimeRemaining() + ", priority " + next.getPriority() + ")");
+				if (noArrival)
+				    System.out.println();
 				next.resetTimeNotProcessed();
 				pqueue.enPQueue(next);
 			    }

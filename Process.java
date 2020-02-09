@@ -1,73 +1,36 @@
-import java.util.Random;
+public class Process
+{
+	private static int arrivalTime;
+	private static int priority;
+	private int timeRemaining;
+	private int timeNotProcessed;
 
-public class Process implements Comparable<Process> {
-
-	Random rand = new Random();
-	private int priority, timeRemaining, arrivalTime, timeNotProcessed;
-		public Process(int currentTime, int maxProcessTime, int maxLevel)
-		{
-			this.priority = rand.nextInt((maxLevel-1) + 1) +1;
-			this.timeRemaining = rand.nextInt((maxLevel-1)+1)+1;
-			this.arrivalTime = currentTime;
-			this.timeNotProcessed = 0;
-		}
-	public int getTimeRemaining()
-	{
-		return timeRemaining;
+	public Process(int arrTime, int timeRem, int pri){
+		arrivalTime = arrTime;
+		timeRemaining = timeRem;
+		priority = pri;
+		timeNotProcessed = 0;
 	}
-	public int getPriority()
+
+	public static int getArrivalTime()
+	{
+		int retVal = arrivalTime;
+		return retVal;
+	}
+	public static int getPriority() 
 	{
 		return priority;
 	}
-	public int getArrivalTime()
+	public static void incrementPriority() 
 	{
-		return arrivalTime;
+		priority++;
 	}
-	@Override
-	public int compareTo(Process p) {
-		if(this.priority == p.priority)
-		{
-			if(this.arrivalTime < p.arrivalTime)
-			{
-				return 1;
-			}
-			else 
-			{
-				return -1;
-			}
-		}
-		else if(this.priority < p.priority)
-		{
-			return -1;
-		}
-		else 
-		{
-			return 1;
-		}
-		
-	}
-	public boolean finish()
+	public int compareTo(Process otherProc)
 	{
-		return(timeRemaining == 0);
-	}
-	public void reduceTimeRemaining()
-	{
-		timeRemaining--;
+		return 0;
 	}
 	public void resetTimeNotProcessed()
 	{
-		this.timeNotProcessed = 0;
-	}
-	public void incrementTimeNotProcessed()
-	{
-		this.timeNotProcessed++;
-	}
-	public int getTimeNotProcessed()
-	{
-		return timeNotProcessed;
-	}
-	public void increasePriority()
-	{
-		this.priority++;
+		timeNotProcessed = 0;
 	}
 }
