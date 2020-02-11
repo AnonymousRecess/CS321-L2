@@ -1,5 +1,10 @@
 import java.util.Random;
-
+/**
+ *This class specifies processes with priorities, timeRemaining, arrivalTime and timeNotProcessed
+ * @author Jeff Kahn
+ * @version 1.0
+ * @since 2-7-2020
+ */
 public class Process implements Comparable<Process> {
 
 	Random rand = new Random();
@@ -7,7 +12,7 @@ public class Process implements Comparable<Process> {
 		public Process(int currentTime, int maxProcessTime, int maxLevel)
 		{
 			this.priority = rand.nextInt((maxLevel-1) + 1) +1;
-			this.timeRemaining = rand.nextInt((maxLevel-1)+1)+1;
+			this.timeRemaining = rand.nextInt((maxProcessTime-1)+1)+1;
 			this.arrivalTime = currentTime;
 			this.timeNotProcessed = 0;
 		}
@@ -23,29 +28,28 @@ public class Process implements Comparable<Process> {
 	{
 		return arrivalTime;
 	}
-	@Override
+	
+	/**
+	 * Returns -1 if smaller, and 1 if larger
+	 * @param p - Priority to be compared
+	 */
 	public int compareTo(Process p) {
 		if(this.priority == p.priority)
 		{
-			if(this.arrivalTime < p.arrivalTime)
-			{
+			if(this.arrivalTime <= p.arrivalTime)
 				return 1;
-			}
-			else 
-			{
+			else
 				return -1;
-			}
 		}
-		else if(this.priority < p.priority)
-		{
-			return -1;
-		}
-		else 
-		{
+		else if(this.priority > p.priority)
 			return 1;
-		}
+		else
+			return -1;
 		
 	}
+	/**
+	 * Tests if process is finished
+	 */
 	public boolean finish()
 	{
 		return(timeRemaining == 0);

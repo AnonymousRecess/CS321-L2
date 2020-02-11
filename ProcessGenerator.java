@@ -1,5 +1,10 @@
 import java.util.Random;
-
+/**
+ *This class specifies if a new process should be created based on a random double
+ * @author Jeff Kahn
+ * @version 1.0
+ * @since 2-7-2020
+ */
 public class ProcessGenerator {
 	private double probability;
 	private Random rand = new Random();
@@ -7,11 +12,14 @@ public class ProcessGenerator {
 	public ProcessGenerator(double probability)
 	{
 		this.probability = probability;
-		this.probabilityTest = rand.nextDouble();
+		this.probability *= 100;
+		
 		
 	}
 	public boolean query()
 	{
+		this.probabilityTest = rand.nextDouble();
+		this.probabilityTest*= 100;
 		if(probabilityTest <= probability)
 		{
 			return true;
